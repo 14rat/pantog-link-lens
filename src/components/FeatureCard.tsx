@@ -6,11 +6,17 @@ interface FeatureCardProps {
   icon: LucideIcon;
   title: string;
   description: string;
+  className?: string;
 }
 
-const FeatureCard: React.FC<FeatureCardProps> = ({ icon: Icon, title, description }) => {
+const FeatureCard: React.FC<FeatureCardProps> = ({ 
+  icon: Icon, 
+  title, 
+  description, 
+  className = '' 
+}) => {
   return (
-    <div className="bg-pantog-gray rounded-xl p-6 card-hover">
+    <div className={`bg-pantog-gray rounded-xl p-6 card-hover transition-all duration-300 ${className}`}>
       <div className="w-12 h-12 bg-pantog-green/20 flex items-center justify-center rounded-lg mb-4">
         <Icon className="text-pantog-green" size={24} />
       </div>

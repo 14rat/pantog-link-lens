@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import DashboardSidebar from '@/components/DashboardSidebar';
 import DashboardCard from '@/components/DashboardCard';
 import { BarChart3, Link, Link2, Plus, Users } from 'lucide-react';
@@ -50,6 +50,33 @@ const recentLinks = [
 const Dashboard = () => {
   const [newUrl, setNewUrl] = React.useState('');
   const [isCreating, setIsCreating] = React.useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  
+  // Check sidebar state from localStorage
+  useEffect(() => {
+    const checkSidebarState = () => {
+      const savedState = localStorage.getItem('sidebar-collapsed');
+      setSidebarCollapsed(savedState === 'true');
+    };
+    
+    // Initial check
+    checkSidebarState();
+    
+    // Set up event listener for localStorage changes
+    window.addEventListener('storage', checkSidebarState);
+    
+    // Custom event for real-time updates
+    const handleSidebarChange = () => {
+      checkSidebarState();
+    };
+    
+    window.addEventListener('sidebarStateChanged', handleSidebarChange);
+    
+    return () => {
+      window.removeEventListener('storage', checkSidebarState);
+      window.removeEventListener('sidebarStateChanged', handleSidebarChange);
+    };
+  }, []);
   
   const handleCreateUrl = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,11 +105,19 @@ const Dashboard = () => {
     <div className="min-h-screen bg-pantog-black">
       <DashboardSidebar />
       
-      <div className="ml-64 p-8">
+      <div 
+        className={`transition-all duration-300 ${
+          sidebarCollapsed ? 'ml-16' : 'ml-64'
+        } p-8`}
+      >
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl font-bold mb-8 text-white">Dashboard</h1>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          <div className={`grid grid-cols-1 ${
+            sidebarCollapsed 
+              ? 'md:grid-cols-2 lg:grid-cols-3' 
+              : 'md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'
+          } gap-6 mb-8`}>
             <DashboardCard title="Total de Links" icon={<Link2 />}>
               <div className="flex items-center">
                 <p className="text-3xl font-bold text-white">12</p>
@@ -112,7 +147,11 @@ const Dashboard = () => {
             </DashboardCard>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+          <div className={`grid grid-cols-1 ${
+            sidebarCollapsed
+              ? 'lg:grid-cols-3'
+              : 'lg:grid-cols-3 xl:grid-cols-3'
+          } gap-6 mb-8`}>
             <div className="lg:col-span-2">
               <Card className="bg-pantog-gray border-pantog-gray h-full">
                 <h3 className="text-lg font-medium text-white mb-4">Performance</h3>
