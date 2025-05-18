@@ -51,30 +51,32 @@ const Dashboard = () => {
   const [newUrl, setNewUrl] = React.useState('');
   const [isCreating, setIsCreating] = React.useState(false);
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   
-  // Check sidebar state from localStorage
+  // Check sidebar state from localStorage and listen for window resizes
   useEffect(() => {
     const checkSidebarState = () => {
       const savedState = localStorage.getItem('sidebar-collapsed');
       setSidebarCollapsed(savedState === 'true');
     };
-    
-    // Initial check
-    checkSidebarState();
-    
-    // Set up event listener for localStorage changes
-    window.addEventListener('storage', checkSidebarState);
-    
-    // Custom event for real-time updates
-    const handleSidebarChange = () => {
-      checkSidebarState();
+
+    const checkDeviceSize = () => {
+      setIsMobile(window.innerWidth < 768);
     };
     
-    window.addEventListener('sidebarStateChanged', handleSidebarChange);
+    // Initial checks
+    checkSidebarState();
+    checkDeviceSize();
+    
+    // Set up event listeners
+    window.addEventListener('storage', checkSidebarState);
+    window.addEventListener('sidebarStateChanged', checkSidebarState);
+    window.addEventListener('resize', checkDeviceSize);
     
     return () => {
       window.removeEventListener('storage', checkSidebarState);
-      window.removeEventListener('sidebarStateChanged', handleSidebarChange);
+      window.removeEventListener('sidebarStateChanged', checkSidebarState);
+      window.removeEventListener('resize', checkDeviceSize);
     };
   }, []);
   
@@ -108,16 +110,27 @@ const Dashboard = () => {
       <div 
         className={`transition-all duration-300 ${
           sidebarCollapsed ? 'ml-16' : 'ml-64'
-        } p-8`}
+        } p-4 md:p-6 lg:p-8 pt-6`}
       >
         <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-bold mb-8 text-white">Dashboard</h1>
+          <div className="flex justify-between items-center mb-8">
+            <h1 className="text-2xl md:text-3xl font-bold text-white">Dashboard</h1>
+            
+            <div className="flex gap-2 items-center">
+              <Button 
+                size="sm" 
+                className="bg-pantog-green text-pantog-black hover:bg-pantog-green-dark"
+              >
+                <Plus size={16} className="mr-1" /> Novo Link
+              </Button>
+            </div>
+          </div>
           
-          <div className={`grid grid-cols-1 ${
+          <div className={`grid grid-cols-1 gap-4 md:gap-6 ${
             sidebarCollapsed 
-              ? 'md:grid-cols-2 lg:grid-cols-3' 
-              : 'md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3'
-          } gap-6 mb-8`}>
+              ? 'md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4' 
+              : 'md:grid-cols-2 lg:grid-cols-3'
+          } mb-8`}>
             <DashboardCard title="Total de Links" icon={<Link2 />}>
               <div className="flex items-center">
                 <p className="text-3xl font-bold text-white">12</p>
@@ -128,7 +141,11 @@ const Dashboard = () => {
             <DashboardCard title="Cliques Totais" icon={<BarChart3 />}>
               <div className="flex items-center">
                 <p className="text-3xl font-bold text-white">1,243</p>
-                <span className="text-sm text-pantog-green ml-2">+18% este mês</span>
+                <span className="text-sm text-pantog-green ml-2">
+                  <span className="flex items-center">
+                    +18% <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-1"><path d="m5 12 7-7 7 7"></path><path d="M12 19V5"></path></svg>
+                  </span>
+                </span>
               </div>
             </DashboardCard>
             
@@ -147,13 +164,13 @@ const Dashboard = () => {
             </DashboardCard>
           </div>
           
-          <div className={`grid grid-cols-1 ${
+          <div className={`grid grid-cols-1 gap-4 md:gap-6 ${
             sidebarCollapsed
               ? 'lg:grid-cols-3'
-              : 'lg:grid-cols-3 xl:grid-cols-3'
-          } gap-6 mb-8`}>
+              : 'lg:grid-cols-3'
+          } mb-8`}>
             <div className="lg:col-span-2">
-              <Card className="bg-pantog-gray border-pantog-gray h-full">
+              <Card className="bg-pantog-gray border-pantog-gray h-full hover-elevate transition-all">
                 <h3 className="text-lg font-medium text-white mb-4">Performance</h3>
                 <AreaChart
                   className="h-64"
@@ -171,7 +188,7 @@ const Dashboard = () => {
             </div>
             
             <div>
-              <Card className="bg-pantog-gray border-pantog-gray h-full">
+              <Card className="bg-pantog-gray border-pantog-gray h-full hover-elevate transition-all">
                 <h3 className="text-lg font-medium text-white mb-4">Criar novo link</h3>
                 <form onSubmit={handleCreateUrl} className="space-y-4">
                   <Input 
@@ -194,8 +211,13 @@ const Dashboard = () => {
           </div>
           
           <div>
-            <Card className="bg-pantog-gray border-pantog-gray">
-              <h3 className="text-lg font-medium text-white mb-4">Links recentes</h3>
+            <Card className="bg-pantog-gray border-pantog-gray hover-elevate transition-all">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-medium text-white">Links recentes</h3>
+                <Button variant="ghost" className="text-pantog-green text-sm hover:bg-pantog-black/30">
+                  Ver todos os links
+                </Button>
+              </div>
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead>
@@ -209,7 +231,7 @@ const Dashboard = () => {
                   </thead>
                   <tbody>
                     {recentLinks.map((link) => (
-                      <tr key={link.id} className="border-b border-pantog-black">
+                      <tr key={link.id} className="border-b border-pantog-black hover:bg-pantog-black/10 transition-colors">
                         <td className="py-3 text-white">
                           <div className="truncate max-w-[200px]">{link.original}</div>
                         </td>
@@ -220,7 +242,7 @@ const Dashboard = () => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="text-gray-400 hover:text-white"
+                            className="text-gray-400 hover:text-white hover:bg-pantog-black/30"
                             onClick={() => copyToClipboard(link.short)}
                           >
                             Copiar
@@ -230,11 +252,6 @@ const Dashboard = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
-              <div className="mt-4 text-center">
-                <Button variant="link" className="text-pantog-green">
-                  Ver todos os links
-                </Button>
               </div>
             </Card>
           </div>
