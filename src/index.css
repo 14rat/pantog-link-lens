@@ -50,14 +50,48 @@
 
 @layer utilities {
   .btn-primary {
-    @apply bg-pantog-green text-pantog-black font-medium px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all;
+    @apply bg-pantog-green text-pantog-black font-medium px-4 py-2 rounded-lg hover:bg-pantog-green-dark transition-all;
   }
   
   .btn-secondary {
-    @apply bg-pantog-gray text-white font-medium px-4 py-2 rounded-lg hover:bg-opacity-90 transition-all;
+    @apply bg-pantog-gray text-white font-medium px-4 py-2 rounded-lg hover:bg-pantog-gray-hover transition-all;
   }
   
   .card-hover {
     @apply transition-all duration-300 hover:ring-1 hover:ring-pantog-green hover:shadow-md hover:shadow-pantog-green/20;
+  }
+  
+  /* Space system */
+  .space-xs {
+    @apply p-1;
+  }
+  
+  .space-sm {
+    @apply p-2;
+  }
+  
+  .space-md {
+    @apply p-4;
+  }
+  
+  .space-lg {
+    @apply p-6;
+  }
+  
+  .space-xl {
+    @apply p-8;
+  }
+  
+  .space-2xl {
+    @apply p-12;
+  }
+  
+  /* Micro-interactions */
+  .hover-scale {
+    @apply transition-transform duration-200 hover:scale-105;
+  }
+  
+  .hover-elevate {
+    @apply transition-all duration-300 hover:translate-y-[-2px] hover:shadow-lg;
   }
 }
