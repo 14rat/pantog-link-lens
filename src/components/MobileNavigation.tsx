@@ -1,78 +1,77 @@
 
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { BarChart3, Link as LinkIcon, Settings, Plus, Search } from 'lucide-react';
+import { Home, BarChart2, Plus, Settings, User } from 'lucide-react';
 
 const MobileNavigation: React.FC = () => {
   const location = useLocation();
-  const currentPath = location.pathname;
   
-  const isActive = (path: string) => {
-    return currentPath.includes(path);
-  };
+  // Only show on dashboard routes
+  if (!location.pathname.includes('/dashboard')) {
+    return null;
+  }
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 md:hidden bg-pantog-black border-t border-pantog-gray/50 z-20">
-      <div className="flex justify-around items-center h-16">
-        <Link 
+    <div className="fixed bottom-0 left-0 right-0 bg-pantog-black border-t border-pantog-gray/30 md:hidden z-50">
+      <nav className="flex items-center justify-around py-2">
+        <NavItem 
           to="/dashboard" 
-          className={`flex flex-col items-center justify-center px-4 ${
-            isActive('/dashboard') && !isActive('/dashboard/analytics') && !isActive('/dashboard/settings') 
-              ? 'text-pantog-green' 
-              : 'text-gray-400'
-          }`}
-        >
-          <LinkIcon size={20} />
-          <span className="text-xs mt-1">Links</span>
-        </Link>
-        
-        <Link 
+          icon={<Home size={20} />} 
+          label="Home" 
+          active={location.pathname === '/dashboard'}
+        />
+        <NavItem 
           to="/dashboard/analytics" 
-          className={`flex flex-col items-center justify-center px-4 ${
-            isActive('/dashboard/analytics') 
-              ? 'text-pantog-green' 
-              : 'text-gray-400'
-          }`}
-        >
-          <BarChart3 size={20} />
-          <span className="text-xs mt-1">Analytics</span>
-        </Link>
-        
-        <Link 
-          to="/dashboard/create" 
-          className="flex flex-col items-center justify-center"
-        >
-          <div className="bg-pantog-green text-pantog-black w-12 h-12 rounded-full flex items-center justify-center -mt-5 mb-1 shadow-lg">
-            <Plus size={24} />
-          </div>
-          <span className="text-xs text-pantog-green">Criar</span>
-        </Link>
-        
-        <Link 
-          to="/dashboard/search" 
-          className={`flex flex-col items-center justify-center px-4 ${
-            isActive('/dashboard/search') 
-              ? 'text-pantog-green' 
-              : 'text-gray-400'
-          }`}
-        >
-          <Search size={20} />
-          <span className="text-xs mt-1">Buscar</span>
-        </Link>
-        
-        <Link 
+          icon={<BarChart2 size={20} />} 
+          label="Analytics" 
+          active={location.pathname.includes('/analytics')}
+        />
+        <NavItem 
+          to="/dashboard/new" 
+          icon={<Plus size={20} className="text-pantog-green" />} 
+          label="New" 
+          active={location.pathname.includes('/new')}
+          isPrimary
+        />
+        <NavItem 
           to="/dashboard/settings" 
-          className={`flex flex-col items-center justify-center px-4 ${
-            isActive('/dashboard/settings') 
-              ? 'text-pantog-green' 
-              : 'text-gray-400'
-          }`}
-        >
-          <Settings size={20} />
-          <span className="text-xs mt-1">Config</span>
-        </Link>
-      </div>
+          icon={<Settings size={20} />} 
+          label="Settings" 
+          active={location.pathname.includes('/settings')}
+        />
+        <NavItem 
+          to="/dashboard/profile" 
+          icon={<User size={20} />} 
+          label="Profile" 
+          active={location.pathname.includes('/profile')}
+        />
+      </nav>
     </div>
+  );
+};
+
+interface NavItemProps {
+  to: string;
+  icon: React.ReactNode;
+  label: string;
+  active: boolean;
+  isPrimary?: boolean;
+}
+
+const NavItem: React.FC<NavItemProps> = ({ to, icon, label, active, isPrimary = false }) => {
+  return (
+    <Link 
+      to={to} 
+      className={`flex flex-col items-center justify-center px-2 ${
+        active ? 'text-pantog-green' : 'text-gray-400'
+      }`}
+      aria-label={label}
+    >
+      <div className={`p-1 rounded-full ${isPrimary ? 'bg-pantog-black shadow-sm shadow-pantog-green/20' : ''}`}>
+        {icon}
+      </div>
+      <span className="text-xs mt-1">{label}</span>
+    </Link>
   );
 };
 
