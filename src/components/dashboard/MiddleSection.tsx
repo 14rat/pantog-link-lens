@@ -1,7 +1,7 @@
 
 import React from 'react';
-import PerformanceChart from './PerformanceChart';
-import NewLinkCard from './NewLinkCard';
+import EnhancedPerformanceChart from './EnhancedPerformanceChart';
+import EnhancedNewLinkCard from './EnhancedNewLinkCard';
 
 interface MiddleSectionProps {
   sidebarCollapsed: boolean;
@@ -15,11 +15,11 @@ const MiddleSection: React.FC<MiddleSectionProps> = ({ sidebarCollapsed }) => {
         : 'lg:grid-cols-3'
     } mb-8`}>
       <div className="lg:col-span-2">
-        <PerformanceChart />
+        <EnhancedPerformanceChart />
       </div>
       
       <div>
-        <NewLinkCard />
+        <EnhancedNewLinkCard />
       </div>
     </div>
   );

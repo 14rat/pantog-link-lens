@@ -14,6 +14,11 @@ const Footer: React.FC = () => {
               Gerencie e analise suas URLs encurtadas com facilidade.
               Obtenha insights valiosos sobre o desempenho dos seus links.
             </p>
+            
+            <div className="mt-6 flex items-center">
+              <div className="w-2 h-2 rounded-full bg-green-500 mr-2 animate-pulse-green"></div>
+              <span className="text-gray-400 text-sm">Todos os sistemas operacionais</span>
+            </div>
           </div>
           
           <div>
@@ -22,6 +27,8 @@ const Footer: React.FC = () => {
               <li><Link to="/" className="hover:text-pantog-green transition-colors">Home</Link></li>
               <li><Link to="/features" className="hover:text-pantog-green transition-colors">Funcionalidades</Link></li>
               <li><Link to="/pricing" className="hover:text-pantog-green transition-colors">Preços</Link></li>
+              <li><Link to="/docs" className="hover:text-pantog-green transition-colors">Documentação</Link></li>
+              <li><Link to="/support" className="hover:text-pantog-green transition-colors">Suporte</Link></li>
             </ul>
           </div>
           
@@ -30,6 +37,8 @@ const Footer: React.FC = () => {
             <ul className="space-y-2 text-gray-400">
               <li><Link to="/terms" className="hover:text-pantog-green transition-colors">Termos de Uso</Link></li>
               <li><Link to="/privacy" className="hover:text-pantog-green transition-colors">Política de Privacidade</Link></li>
+              <li><Link to="/cookies" className="hover:text-pantog-green transition-colors">Política de Cookies</Link></li>
+              <li><Link to="/compliance" className="hover:text-pantog-green transition-colors">Compliance</Link></li>
             </ul>
           </div>
         </div>
@@ -37,9 +46,10 @@ const Footer: React.FC = () => {
         <div className="border-t border-gray-700 mt-8 pt-6 text-gray-500 flex flex-col md:flex-row justify-between items-center">
           <p>© {new Date().getFullYear()} Pantog. Todos os direitos reservados.</p>
           <div className="flex gap-4 mt-4 md:mt-0">
-            <a href="#" className="hover:text-pantog-green transition-colors">Twitter</a>
-            <a href="#" className="hover:text-pantog-green transition-colors">LinkedIn</a>
-            <a href="#" className="hover:text-pantog-green transition-colors">Github</a>
+            <Link to="#" className="hover:text-pantog-green transition-colors">Twitter</Link>
+            <Link to="#" className="hover:text-pantog-green transition-colors">LinkedIn</Link>
+            <Link to="#" className="hover:text-pantog-green transition-colors">Github</Link>
+            <Link to="#" className="hover:text-pantog-green transition-colors">YouTube</Link>
           </div>
         </div>
       </div>
