@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Card } from '@tremor/react';
 import { Button } from '@/components/ui/button';
@@ -15,7 +14,6 @@ import { Label } from '@/components/ui/label';
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
@@ -207,56 +205,50 @@ const EnhancedNewLinkCard: React.FC = () => {
           </div>
           
           <div className="grid grid-cols-3 gap-2 mb-4">
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    onClick={copyToClipboard} 
-                    className="bg-pantog-black border border-pantog-gray/50 hover:bg-pantog-black/80 text-white"
-                  >
-                    <Copy size={16} className="mr-2" />
-                    Copiar
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>Copiar para área de transferência</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  onClick={copyToClipboard} 
+                  className="bg-pantog-black border border-pantog-gray/50 hover:bg-pantog-black/80 text-white"
+                >
+                  <Copy size={16} className="mr-2" />
+                  Copiar
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Copiar para área de transferência</p>
+              </TooltipContent>
+            </Tooltip>
             
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    onClick={shareUrl}
-                    className="bg-pantog-black border border-pantog-gray/50 hover:bg-pantog-black/80 text-white"
-                  >
-                    <Share size={16} className="mr-2" />
-                    Compartilhar
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>Compartilhar em redes sociais</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  onClick={shareUrl}
+                  className="bg-pantog-black border border-pantog-gray/50 hover:bg-pantog-black/80 text-white"
+                >
+                  <Share size={16} className="mr-2" />
+                  Compartilhar
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Compartilhar em redes sociais</p>
+              </TooltipContent>
+            </Tooltip>
             
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button 
-                    onClick={createAnotherUrl}
-                    className="bg-pantog-black border border-pantog-gray/50 hover:bg-pantog-black/80 text-white"
-                  >
-                    <Plus size={16} className="mr-2" />
-                    Novo
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <p>Criar outro link</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  onClick={createAnotherUrl}
+                  className="bg-pantog-black border border-pantog-gray/50 hover:bg-pantog-black/80 text-white"
+                >
+                  <Plus size={16} className="mr-2" />
+                  Novo
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">
+                <p>Criar outro link</p>
+              </TooltipContent>
+            </Tooltip>
           </div>
           
           <div className="mt-4 bg-pantog-black/30 p-3 rounded-lg border border-pantog-gray/50">
